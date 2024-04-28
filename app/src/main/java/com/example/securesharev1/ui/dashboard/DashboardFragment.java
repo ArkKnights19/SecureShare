@@ -1,6 +1,7 @@
 package com.example.securesharev1.ui.dashboard;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.securesharev1.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
+    private String TAG = "R";
 
     private FragmentDashboardBinding binding;
 
@@ -26,6 +28,7 @@ public class DashboardFragment extends Fragment {
 
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        Log.i(TAG, "Receive");
         return root;
     }
 
