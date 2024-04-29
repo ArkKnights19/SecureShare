@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
 
     private static final long BIT_DURATION_1_SCREEN = 200;
 
-    private static final long BIT_DURATION_0_SCREEN = 1000 ;
+    private static final long BIT_DURATION_0_SCREEN = 1000;
     private static final long BIT_DURATION_0 = 250;
     String TAG = "Home";
     int counter = 0;
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment {
     private TextView textView;
     private View whiteColorOverlay;
     private FragmentHomeBinding binding;
-    private boolean isFlashlightOn;
+    private boolean isFlashlightMode;
     private float mPreviousBrightness = -1.0f;
     private Runnable colorRunnable = new Runnable() {
         @Override
@@ -92,9 +93,6 @@ public class HomeFragment extends Fragment {
         binding.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Sending...", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.nav_host_fragment_activity_main)
-                        .setAction("Action", null).show();
                 try {
                     sendData();
                 } catch (InterruptedException e) {
@@ -103,6 +101,16 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        binding.isTorch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    isFlashlightMode = true;
+                } else {
+                    isFlashlightMode = false;
+                }
+            }
+        });
         return root;
     }
 
@@ -116,29 +124,11 @@ public class HomeFragment extends Fragment {
         String msg = String.valueOf(sendInput.getText());
         textView.setText(msg);
 
-
-//        sendAsciiDataToTorch(msg);
-        Log.i("marker","sending to display 1");
-        sendAsciiDataToDisplay(msg);
-
-    }
-
-    private void offLight() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
-            }
-        });
-    }
-
-    private void onLight() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
-            }
-        });
+        if (isFlashlightMode) {
+            sendAsciiDataToTorch(msg);
+        } else {
+            sendAsciiDataToDisplay(msg);
+        }
     }
 
     private void turnFlashlightOn() {
@@ -185,7 +175,13 @@ public class HomeFragment extends Fragment {
         WindowManager.LayoutParams attributes = window.getAttributes();
 
         attributes.screenBrightness = mPreviousBrightness;
-        window.setAttributes(attributes);
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                window.setAttributes(attributes);
+            }
+        });
     }
 
     private void sendAsciiDataToTorch(String data) {
@@ -231,49 +227,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void sendAsciiDataToDisplay(String data) {
+        maximizeScreenBrightness();
         whiteColorOverlay.setVisibility(View.VISIBLE);
-        final Activity activity = getActivity() ;
-        Log.i("marker", "sending data to display") ;
-//        try {
-//            cameraId = cameraManager.getCameraIdList()[0]; // use the first camera
-//            for (int i = 0; i < data.length(); i++) {
-//                char c = data.charAt(i);
-//                String binaryString = Integer.toBinaryString(c); // convert the character to binary string
-//                if (binaryString.length() < 8) {
-//                    binaryString = String.join("", Collections.nCopies((8 - binaryString.length()), "0")) + binaryString;
-//                }
-//                System.out.println(String.format("%c : %s", c, binaryString));
-////                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white)); //TODO remove this
-//                for (int j = 0; j < binaryString.length(); j++) {
-//
-//                    if (binaryString.charAt(j) == '1') {
-//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
-//
-//                        Thread.sleep(BIT_DURATION_1_SCREEN);
-//
-//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
-//                        Thread.sleep(600);
-//                    } else if (binaryString.charAt(j) == '0') {
-//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
-//
-//                        Thread.sleep(BIT_DURATION_0_SCREEN);
-//
-//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
-//                        Thread.sleep(600);
-//                    }
-//                }
-//                counter++;
-////                progressBar.setProgress(counter);
-//            }
-//
-//            Log.i(TAG, String.valueOf(counter));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-//        whiteColorOverlay.setVisibility(View.INVISIBLE);
-
+        final Activity activity = getActivity();
+        Log.i("marker", "sending data to display");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -286,59 +243,52 @@ public class HomeFragment extends Fragment {
                             binaryString = String.join("", Collections.nCopies((8 - binaryString.length()), "0")) + binaryString;
                         }
                         System.out.println(String.format("%c : %s", c, binaryString));
-//                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white)); //TODO remove this
                         for (int j = 0; j < binaryString.length(); j++) {
 
                             if (binaryString.charAt(j) == '1') {
-//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
-                                if (activity != null){
+                                if (activity != null) {
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
                                         }
                                     });
-                                }else {
-                                    Log.e("activity", "activity null") ;
+                                } else {
+                                    Log.e("activity", "activity null");
                                 }
                                 Thread.sleep(BIT_DURATION_1);
-
-//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
-                                if (activity != null){
+                                if (activity != null) {
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
                                         }
                                     });
-                                }else {
-                                    Log.e("activity", "activity null") ;
+                                } else {
+                                    Log.e("activity", "activity null");
                                 }
                                 Thread.sleep(150);
                             } else if (binaryString.charAt(j) == '0') {
-//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
-                                if (activity != null){
+                                if (activity != null) {
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
                                         }
                                     });
-                                }else {
-                                    Log.e("activity", "activity null") ;
+                                } else {
+                                    Log.e("activity", "activity null");
                                 }
                                 Thread.sleep(BIT_DURATION_0);
-
-//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
-                                if (activity != null){
+                                if (activity != null) {
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
                                         }
                                     });
-                                }else {
-                                    Log.e("activity", "activity null") ;
+                                } else {
+                                    Log.e("activity", "activity null");
                                 }
                                 Thread.sleep(150);
                             }
@@ -346,7 +296,8 @@ public class HomeFragment extends Fragment {
                         counter++;
 //                progressBar.setProgress(counter);
                     }
-
+                    restoreScreenBrightness();
+                    whiteColorOverlay.setVisibility(View.INVISIBLE);
                     Log.i(TAG, String.valueOf(counter));
 
                 } catch (Exception e) {
