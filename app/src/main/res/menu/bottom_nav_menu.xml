@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/navigation_send"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:icon="@drawable/baseline_arrow_right_24"
         android:title="Send" />
 
     <item
         android:id="@+id/navigation_receive"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/baseline_archive_24_receive"
         android:title="Receive" />
 
 </menu>
