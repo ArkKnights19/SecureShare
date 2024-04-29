@@ -1,0 +1,19 @@
+@echo off
+"E:\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe" ^
+  "-HE:\\DOCUMENTSZ\\Securesharev1\\openCV\\libcxx_helper" ^
+  "-DCMAKE_SYSTEM_NAME=Android" ^
+  "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" ^
+  "-DCMAKE_SYSTEM_VERSION=29" ^
+  "-DANDROID_PLATFORM=android-29" ^
+  "-DANDROID_ABI=x86" ^
+  "-DCMAKE_ANDROID_ARCH_ABI=x86" ^
+  "-DANDROID_NDK=E:\\Sdk\\ndk\\25.1.8937393" ^
+  "-DCMAKE_ANDROID_NDK=E:\\Sdk\\ndk\\25.1.8937393" ^
+  "-DCMAKE_TOOLCHAIN_FILE=E:\\Sdk\\ndk\\25.1.8937393\\build\\cmake\\android.toolchain.cmake" ^
+  "-DCMAKE_MAKE_PROGRAM=E:\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
+  "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=E:\\DOCUMENTSZ\\Securesharev1\\openCV\\build\\intermediates\\cxx\\Debug\\316c0591\\obj\\x86" ^
+  "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=E:\\DOCUMENTSZ\\Securesharev1\\openCV\\build\\intermediates\\cxx\\Debug\\316c0591\\obj\\x86" ^
+  "-DCMAKE_BUILD_TYPE=Debug" ^
+  "-BE:\\DOCUMENTSZ\\Securesharev1\\openCV\\.cxx\\Debug\\316c0591\\x86" ^
+  -GNinja ^
+  "-DANDROID_STL=c++_shared"

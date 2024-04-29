@@ -1,0 +1,2 @@
+ninja: Entering directory `E:\DOCUMENTSZ\Securesharev1\openCV\.cxx\Debug\5kr4g292\x86'
+ninja: no work to do.
