@@ -35,13 +35,32 @@
         android:autofillHints=""
         tools:ignore="LabelFor" />
 
+    <View
+        android:id="@+id/white_color_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:elevation="8dp"
+        android:visibility="invisible" />
+
     <Button
-        android:id="@+id/button"
+        android:id="@+id/send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
-        android:layout_marginBottom="80dp"
-        android:text="@string/send"
+        android:layout_marginBottom="56dp"
+        android:text="Send"
         app:layout_constraintBottom_toTopOf="@+id/text_home"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Switch
+        android:id="@+id/isTorch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="212dp"
+        android:text="Torch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
