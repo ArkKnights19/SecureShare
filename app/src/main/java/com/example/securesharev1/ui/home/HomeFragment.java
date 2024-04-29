@@ -34,6 +34,10 @@ import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment {
     private static final long BIT_DURATION_1 = 50;
+
+    private static final long BIT_DURATION_1_SCREEN = 200;
+
+    private static final long BIT_DURATION_0_SCREEN = 1000 ;
     private static final long BIT_DURATION_0 = 250;
     String TAG = "Home";
     int counter = 0;
@@ -113,8 +117,9 @@ public class HomeFragment extends Fragment {
         textView.setText(msg);
 
 
-        sendAsciiDataToTorch(msg);
-//        sendAsciiDataToDisplay(msg);
+//        sendAsciiDataToTorch(msg);
+        Log.i("marker","sending to display 1");
+        sendAsciiDataToDisplay(msg);
 
     }
 
@@ -227,45 +232,128 @@ public class HomeFragment extends Fragment {
 
     private void sendAsciiDataToDisplay(String data) {
         whiteColorOverlay.setVisibility(View.VISIBLE);
-
-        try {
-            cameraId = cameraManager.getCameraIdList()[0]; // use the first camera
-            for (int i = 0; i < data.length(); i++) {
-                char c = data.charAt(i);
-                String binaryString = Integer.toBinaryString(c); // convert the character to binary string
-                if (binaryString.length() < 8) {
-                    binaryString = String.join("", Collections.nCopies((8 - binaryString.length()), "0")) + binaryString;
-                }
-                System.out.println(String.format("%c : %s", c, binaryString));
-                for (int j = 0; j < binaryString.length(); j++) {
-
-                    if (binaryString.charAt(j) == '1') {
-                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
-
-                        Thread.sleep(BIT_DURATION_1);
-
-                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
-                        Thread.sleep(150);
-                    } else if (binaryString.charAt(j) == '0') {
-                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
-
-                        Thread.sleep(BIT_DURATION_0);
-
-                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
-                        Thread.sleep(150);
-                    }
-                }
-                counter++;
-//                progressBar.setProgress(counter);
-            }
-
-            Log.i(TAG, String.valueOf(counter));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        final Activity activity = getActivity() ;
+        Log.i("marker", "sending data to display") ;
+//        try {
+//            cameraId = cameraManager.getCameraIdList()[0]; // use the first camera
+//            for (int i = 0; i < data.length(); i++) {
+//                char c = data.charAt(i);
+//                String binaryString = Integer.toBinaryString(c); // convert the character to binary string
+//                if (binaryString.length() < 8) {
+//                    binaryString = String.join("", Collections.nCopies((8 - binaryString.length()), "0")) + binaryString;
+//                }
+//                System.out.println(String.format("%c : %s", c, binaryString));
+////                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white)); //TODO remove this
+//                for (int j = 0; j < binaryString.length(); j++) {
+//
+//                    if (binaryString.charAt(j) == '1') {
+//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
+//
+//                        Thread.sleep(BIT_DURATION_1_SCREEN);
+//
+//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+//                        Thread.sleep(600);
+//                    } else if (binaryString.charAt(j) == '0') {
+//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
+//
+//                        Thread.sleep(BIT_DURATION_0_SCREEN);
+//
+//                        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+//                        Thread.sleep(600);
+//                    }
+//                }
+//                counter++;
+////                progressBar.setProgress(counter);
+//            }
+//
+//            Log.i(TAG, String.valueOf(counter));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 //        whiteColorOverlay.setVisibility(View.INVISIBLE);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    cameraId = cameraManager.getCameraIdList()[0]; // use the first camera
+                    for (int i = 0; i < data.length(); i++) {
+                        char c = data.charAt(i);
+                        String binaryString = Integer.toBinaryString(c); // convert the character to binary string
+                        if (binaryString.length() < 8) {
+                            binaryString = String.join("", Collections.nCopies((8 - binaryString.length()), "0")) + binaryString;
+                        }
+                        System.out.println(String.format("%c : %s", c, binaryString));
+//                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white)); //TODO remove this
+                        for (int j = 0; j < binaryString.length(); j++) {
+
+                            if (binaryString.charAt(j) == '1') {
+//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
+                                if (activity != null){
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
+                                        }
+                                    });
+                                }else {
+                                    Log.e("activity", "activity null") ;
+                                }
+                                Thread.sleep(BIT_DURATION_1);
+
+//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+                                if (activity != null){
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+                                        }
+                                    });
+                                }else {
+                                    Log.e("activity", "activity null") ;
+                                }
+                                Thread.sleep(150);
+                            } else if (binaryString.charAt(j) == '0') {
+//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
+                                if (activity != null){
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.white));
+                                        }
+                                    });
+                                }else {
+                                    Log.e("activity", "activity null") ;
+                                }
+                                Thread.sleep(BIT_DURATION_0);
+
+//                                whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+                                if (activity != null){
+                                    activity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+                                        }
+                                    });
+                                }else {
+                                    Log.e("activity", "activity null") ;
+                                }
+                                Thread.sleep(150);
+                            }
+                        }
+                        counter++;
+//                progressBar.setProgress(counter);
+                    }
+
+                    Log.i(TAG, String.valueOf(counter));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
 }
