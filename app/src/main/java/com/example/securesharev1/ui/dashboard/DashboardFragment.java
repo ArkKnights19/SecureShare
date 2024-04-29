@@ -13,6 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.securesharev1.databinding.FragmentDashboardBinding;
 
+import org.opencv.android.OpenCVLoader;
+
 public class DashboardFragment extends Fragment {
     private String TAG = "R";
 
@@ -29,6 +31,7 @@ public class DashboardFragment extends Fragment {
         final TextView textView = binding.textDashboard;
         dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         Log.i(TAG, "Receive");
+        openCVInit();
         return root;
     }
 
@@ -36,5 +39,16 @@ public class DashboardFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    public void openCVInit() {
+        if(OpenCVLoader.initDebug()){
+
+            Log.d("Check","OpenCv configured successfully");
+
+        } else{
+
+            Log.d("Check","OpenCv Isn’t configured successfully");
+
+        }
     }
 }

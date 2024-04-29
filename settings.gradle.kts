@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Securesharev1"
 include(":app")
- 
+include(":openCV")
