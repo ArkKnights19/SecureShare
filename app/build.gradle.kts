@@ -4,6 +4,7 @@ plugins {
 
 android {
     namespace = "com.example.securesharev1"
+    namespace =  "org.opencv"
     compileSdk = 34
 
     defaultConfig {
@@ -43,6 +44,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(project(":openCV"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
