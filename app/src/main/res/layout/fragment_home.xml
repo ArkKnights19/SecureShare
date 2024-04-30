@@ -39,7 +39,9 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF"
         android:elevation="8dp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="139dp" />
 
     <Button
         android:id="@+id/send"

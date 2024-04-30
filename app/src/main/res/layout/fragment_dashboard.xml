@@ -22,31 +22,33 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="277dp"
+        android:layout_width="241dp"
         android:layout_height="94dp"
-        android:layout_marginStart="42dp"
-        android:layout_marginBottom="66dp"
-        android:text="TextView"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="92dp"
+        android:text="Press receiver button to open camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="363dp"
-        android:layout_height="414dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/openRecieve"
-        android:layout_width="104dp"
-        android:layout_height="36dp"
-        android:text="Reciever"
+        android:layout_width="123dp"
+        android:layout_height="48dp"
+        android:text="Receiver"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_dashboard"
         app:layout_constraintVertical_bias="0.278" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="247dp"
+        android:layout_height="190dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="148dp"
+        android:src="@android:drawable/ic_menu_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@
         android:id="@+id/test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
+        android:text="Clear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,24 +33,30 @@
         android:id="@+id/cameraView"
         android:layout_width="302dp"
         android:layout_height="461dp"
+        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/test"
-        app:layout_constraintVertical_bias="0.745" />
+        app:layout_constraintVertical_bias="0.745"
+        app:layout_constraintTop_toBottomOf="@+id/test"/>
+
 
     <TextView
         android:id="@+id/receivedMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="68dp"
         android:text="Message"
         app:layout_constraintBottom_toTopOf="@+id/cameraView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/test" />
+        app:layout_constraintTop_toBottomOf="@+id/test"/>
+    <!-- -->
 
-    <!--    <fragment-->
+
+<!--    <fragment-->
     <!--        android:id="@+id/nav_host_fragment_activity_main"-->
     <!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
     <!--        android:layout_width="match_parent"-->

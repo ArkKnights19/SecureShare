@@ -121,7 +121,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void sendData() throws InterruptedException {
-        String msg = String.valueOf(sendInput.getText());
+        String msg = " "+ String.valueOf(sendInput.getText());
         textView.setText(msg);
 
         if (isFlashlightMode) {
