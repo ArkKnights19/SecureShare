@@ -228,12 +228,29 @@ public class HomeFragment extends Fragment {
 
     private void sendAsciiDataToDisplay(String data) {
         maximizeScreenBrightness();
-        whiteColorOverlay.setVisibility(View.VISIBLE);
+//        whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+//        whiteColorOverlay.setVisibility(View.VISIBLE);
         final Activity activity = getActivity();
         Log.i("marker", "sending data to display");
         new Thread(new Runnable() {
             @Override
             public void run() {
+                if (activity != null) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            whiteColorOverlay.setVisibility(View.VISIBLE);
+                            whiteColorOverlay.setBackgroundColor(getResources().getColor(R.color.black));
+                        }
+                    });
+                } else {
+                    Log.e("activity", "activity null");
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 try {
                     cameraId = cameraManager.getCameraIdList()[0]; // use the first camera
                     for (int i = 0; i < data.length(); i++) {
